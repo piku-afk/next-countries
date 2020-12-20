@@ -1,65 +1,64 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import CountryCard from '../components/CountryCard/CountryCard';
+import IndexForm from '../components/IndexForm/IndexForm';
 
-export default function Home() {
+import Head from 'next/head';
+import styles from './index.module.css';
+import { useState } from 'react';
+
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+
+export async function getStaticProps() {
+  const res = await fetch('https://restcountries.eu/rest/v2/all');
+  const data = await res.json();
+
+  return {
+    props: {
+      data
+    }
+  }
+}
+
+export default function Home({data}) {
+  const [countries, setCountries] = useState(data);
+  const [selectValue, setSelectValue] = useState('');
+
+  function handleSearch(e) {
+    const search = e.target.value;
+    if(search === '') {
+      setCountries(data);
+      return;
+    }
+    const regex = new RegExp(search, 'ig');
+    setCountries(data.filter(country => regex.test(country.name)))
+  }
+
+  function handleSelect(e) {
+    const value = e.target.value;
+    // console.log(value);
+    setSelectValue(value);
+    if(value === '') {
+      setCountries(data);
+      return;
+    }
+    setCountries(data.filter(country => country.region === value));
+  }
+
   return (
-    <div className={styles.container}>
+    <>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Where in the world ?</title>
+        <meta content='Get information about all countries' property='og:title'/>
+        <meta name="description" content="Get information about all countries"/>
       </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+      <Container className={styles.formContainer}>
+        <IndexForm handleSearch={handleSearch} handleSelect={handleSelect} selectValue={selectValue} />
+      </Container>
+      <Container maxWidth='lg'>
+        <Grid container spacing={5}>
+          {countries.map(item => <CountryCard key={item.alpha2Code} country={item} />)}
+        </Grid>
+      </Container>
+    </>
   )
 }

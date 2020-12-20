@@ -1,0 +1,40 @@
+div.container {
+  padding-top: 70px;
+}
+button.back {
+  margin: 50px 0;
+}
+
+h1.name {
+  margin: 0 0 3%;
+}
+
+p.details {
+  margin-bottom: 5px;
+}
+
+div.borders {
+  margin: 5% 0;
+}
+p.borders {
+  margin-top: 6px;
+}
+button.borderButton {
+  margin: 1% 2% 1% 0;
+  text-transform: capitalize;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 960px) {
+  div.details {
+    margin-bottom: 5%;
+  }
+}
+@media screen and (max-width: 599px) {
+  div.container {
+    padding-top: 60px;
+  }
+  h1.name {
+    margin: 10% 0 5%;
+  }
+}

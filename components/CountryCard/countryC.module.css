@@ -1,0 +1,15 @@
+h6.name {
+  font-weight: bold;
+  margin-bottom: 3%;
+}
+div.cardContainer {
+  min-height: 395px;
+  cursor: pointer;
+}
+div.cardContainer:hover {
+  background-color: rgba(43, 55, 67, .1) !important;
+}
+
+p.card {
+  margin-bottom: 2%;
+}
