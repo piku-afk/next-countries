@@ -44,7 +44,7 @@ export default function CountryDetials({data, borders}) {
           <Grid container justify='space-between'>
             <Grid className={styles.details} item lg={6} md={6} sm={12} xs={12}>
               <Typography className={styles.details} component='p' variant='subtitle1'><strong>Native Name:</strong> {data.nativeName}</Typography>
-              <Typography className={styles.details} component='p' variant='subtitle1'><strong>Population:</strong> {data.population}</Typography>
+              <Typography className={styles.details} component='p' variant='subtitle1'><strong>Population:</strong> {Number(data.population).toLocaleString()}</Typography>
               <Typography className={styles.details} component='p' variant='subtitle1'><strong>Region:</strong> {data.region}</Typography>
               <Typography className={styles.details} component='p' variant='subtitle1'><strong>Sub Region:</strong> {data.subregion}</Typography>
               <Typography className={styles.details} component='p' variant='subtitle1'><strong>Capital:</strong> {data.capital}</Typography>
