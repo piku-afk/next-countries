@@ -3,7 +3,7 @@ h6.name {
   margin-bottom: 3%;
 }
 div.cardContainer {
-  min-height: 395px;
+  min-height: 350px;
   cursor: pointer;
 }
 div.cardContainer:hover {

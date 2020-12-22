@@ -32,7 +32,7 @@ export default function CountryDetials({data, borders}) {
         </Grid>
         <Grid item sm={5}>
           <Card style={{borderRadius: 0}}> 
-            <CardMedia component='img' image={data.flag} alt={`${data.name}'s flag`} />
+            <CardMedia component='img' image={data.flag} alt={`${data.name}'s flag`} loading='lazy' />
           </Card>
         </Grid>
         <Grid item sm={6}>

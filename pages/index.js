@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import PageNumbers from '../components/Pagination/Pagination';
 
 export async function getStaticProps() {
   const res = await fetch('https://restcountries.eu/rest/v2/all');
@@ -22,6 +23,10 @@ export async function getStaticProps() {
 export default function Home({data}) {
   const [countries, setCountries] = useState(data);
   const [selectValue, setSelectValue] = useState('');
+
+  // const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [countriesPerPage] = useState(12);
 
   function handleSearch(e) {
     const search = e.target.value;
@@ -44,6 +49,13 @@ export default function Home({data}) {
     setCountries(data.filter(country => country.region === value));
   }
 
+  const indexOfLastCountry = currentPage * countriesPerPage;
+  const indexOfFirstCountry = indexOfLastCountry - countriesPerPage;
+  const currentPosts = countries.slice(indexOfFirstCountry, indexOfLastCountry);
+
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+  const number = Math.ceil( countries.length / countriesPerPage);
+
   return (
     <>
       <Head>
@@ -56,9 +68,10 @@ export default function Home({data}) {
       </Container>
       <Container maxWidth='lg'>
         <Grid container spacing={5}>
-          {countries.map(item => <CountryCard key={item.alpha2Code} country={item} />)}
+          {currentPosts.map(item => <CountryCard key={item.alpha2Code} country={item} />)}
         </Grid>
       </Container>
+      <PageNumbers number={number} paginate={paginate} />
     </>
   )
 }
